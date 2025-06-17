@@ -1,5 +1,7 @@
 package com.example.siitaskintern.controller;
 
+import com.example.siitaskintern.dto.CollectionBoxStatusDto;
+import com.example.siitaskintern.dto.MoneyRequest;
 import com.example.siitaskintern.entity.CollectionBox;
 import com.example.siitaskintern.service.CollectionBoxService;
 import lombok.Getter;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/collectionBoxes")
@@ -58,17 +61,46 @@ public class CollectionBoxController {
 
     @PostMapping("/{id}/addMoney")
     public ResponseEntity<CollectionBox> addMoney(@PathVariable Long id, @RequestBody MoneyRequest request) {
-        CollectionBox updated = service.addMoney(id, request.getAmount());
+        CollectionBox updated = service.addMoney(id, request.getAmount(), request.getCurrency());
+
         if (updated != null) {
             return ResponseEntity.ok(updated);
         }
         return ResponseEntity.notFound().build();
     }
 
-    @Setter
-    @Getter
-    public static class MoneyRequest {
-        private BigDecimal amount;
+    @PostMapping("/{boxId}/assign/{eventId}")
+    public ResponseEntity<CollectionBox> assignBoxToEvent(
+            @PathVariable Long boxId,
+            @PathVariable Long eventId) {
+        try {
+            CollectionBox assigned = service.assignBoxToEvent(boxId, eventId);
+            return ResponseEntity.ok(assigned);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/{boxId}/empty")
+    public ResponseEntity<CollectionBox> emptyBox(@PathVariable Long boxId) {
+        try {
+            CollectionBox emptiedBox = service.emptyBox(boxId);
+            return ResponseEntity.ok(emptiedBox);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/status")
+    public List<CollectionBoxStatusDto> getAllBoxesWithStatus() {
+        return service.getAllBoxes().stream()
+                .map(box -> new CollectionBoxStatusDto(
+                        box.getId(),
+                        box.getName(),
+                        box.isAssigned(),
+                        box.isEmpty()
+                ))
+                .collect(Collectors.toList());
     }
 }
 
