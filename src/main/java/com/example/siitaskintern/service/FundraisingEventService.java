@@ -47,15 +47,4 @@ public class FundraisingEventService {
         }
         return false;
     }
-
-    public FundraisingEvent addMoneyToAccount(Long id, BigDecimal amount) {
-        Optional<FundraisingEvent> eventOpt = repository.findById(id);
-        if (eventOpt.isPresent()) {
-            FundraisingEvent event = eventOpt.get();
-            BigDecimal newAmount = event.getTotalAmount().add(amount);
-            event.setTotalAmount(newAmount);
-            return repository.save(event);
-        }
-        return null;
-    }
 }

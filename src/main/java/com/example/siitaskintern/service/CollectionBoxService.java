@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,24 +20,20 @@ public class CollectionBoxService {
     private final CurrencyExchangeService currencyExchangeService;
     private final FundraisingEventRepository eventRepository;
 
-    public List<CollectionBox> getAllBoxes(){
+    public List<CollectionBox> getAllBoxes() {
         return repository.findAll();
     }
 
-    public Optional<CollectionBox> getBoxById(Long id){
-        return repository.findById(id);
-    }
-
-    public CollectionBox addBox(CollectionBox collectionBox){
+    public CollectionBox addBox(CollectionBox collectionBox) {
         collectionBox.setCurrentAmount(BigDecimal.ZERO);
         collectionBox.setEmpty(true);
         collectionBox.setAssigned(false);
         return repository.save(collectionBox);
     }
 
-    public CollectionBox updateBox(Long Id, CollectionBox updateBox){
+    public CollectionBox updateBox(Long Id, CollectionBox updateBox) {
         Optional<CollectionBox> existingBox = repository.findById(Id);
-        if(existingBox.isPresent()){
+        if (existingBox.isPresent()) {
             CollectionBox collectionBox = existingBox.get();
             collectionBox.setName(updateBox.getName());
             collectionBox.setDescription(updateBox.getDescription());
