@@ -3,6 +3,7 @@ package com.example.siitaskintern.service;
 import com.example.siitaskintern.entity.CollectionBox;
 import com.example.siitaskintern.entity.FundraisingEvent;
 import com.example.siitaskintern.repository.CollectionBoxRepository;
+import com.example.siitaskintern.repository.FundraisingEventRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class CollectionBoxService {
     private final CollectionBoxRepository repository;
     private final FundraisingEventService fundraisingEventService;
     private final CurrencyExchangeService currencyExchangeService;
+    private final FundraisingEventRepository eventRepository;
 
     public List<CollectionBox> getAllBoxes(){
         return repository.findAll();
@@ -122,6 +124,7 @@ public class CollectionBoxService {
         );
 
         event.setTotalAmount(event.getTotalAmount().add(convertedAmount));
+        eventRepository.save(event);
         box.setCurrentAmount(BigDecimal.ZERO);
         box.setEmpty(true);
         box.setAssigned(false);

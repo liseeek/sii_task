@@ -1,5 +1,6 @@
 package com.example.siitaskintern.controller;
 
+import com.example.siitaskintern.dto.FinancialReportDto;
 import com.example.siitaskintern.entity.FundraisingEvent;
 import com.example.siitaskintern.service.FundraisingEventService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/fundraisingEvents")
@@ -52,4 +54,16 @@ public class FundraisingEventController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/report")
+    public List<FinancialReportDto> getFinancialReport() {
+        return service.getAllEvents().stream()
+                .map(event -> new FinancialReportDto(
+                        event.getName(),
+                        event.getTotalAmount(),
+                        event.getCurrency()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

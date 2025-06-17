@@ -1,16 +1,13 @@
 package com.example.siitaskintern.controller;
 
+import com.example.siitaskintern.dto.CollectionBoxDto;
 import com.example.siitaskintern.dto.CollectionBoxStatusDto;
 import com.example.siitaskintern.dto.MoneyRequest;
 import com.example.siitaskintern.entity.CollectionBox;
 import com.example.siitaskintern.service.CollectionBoxService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,12 +67,12 @@ public class CollectionBoxController {
     }
 
     @PostMapping("/{boxId}/assign/{eventId}")
-    public ResponseEntity<CollectionBox> assignBoxToEvent(
+    public ResponseEntity<CollectionBoxDto> assignBoxToEvent(
             @PathVariable Long boxId,
             @PathVariable Long eventId) {
         try {
             CollectionBox assigned = service.assignBoxToEvent(boxId, eventId);
-            return ResponseEntity.ok(assigned);
+            return ResponseEntity.ok(new CollectionBoxDto(assigned));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
         }

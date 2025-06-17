@@ -1,15 +1,12 @@
 package com.example.siitaskintern.service;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Component
 public class CurrencyExchangeService {
 
     private final Map<String, BigDecimal> rates = new HashMap<>();

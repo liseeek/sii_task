@@ -1,5 +1,6 @@
 package com.example.siitaskintern.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +22,6 @@ public class FundraisingEvent {
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "fundraisingEvent")
+    @JsonIgnore
     private List<CollectionBox> collectionBoxes;
 }

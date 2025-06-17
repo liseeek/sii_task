@@ -43,6 +43,8 @@ public class CollectionBox {
     public CollectionBox() {
         this.currentAmount = BigDecimal.ZERO;
         this.createdAt = LocalDateTime.now();
+        this.isEmpty = true;
+        this.isAssigned = false;
     }
 
     public CollectionBox(String name, String description, BigDecimal targetAmount, String currency) {
