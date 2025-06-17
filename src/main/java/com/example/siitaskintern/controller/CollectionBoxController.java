@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,20 +17,6 @@ import java.util.stream.Collectors;
 public class CollectionBoxController {
 
     private final CollectionBoxService service;
-
-    @GetMapping
-    public List<CollectionBox> getAllBoxes() {
-        return service.getAllBoxes();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CollectionBox> getBoxById(@PathVariable Long id) {
-        Optional<CollectionBox> collectionBox = service.getBoxById(id);
-        if (collectionBox.isPresent()) {
-            return ResponseEntity.ok(collectionBox.get());
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     @PostMapping
     public CollectionBox addBox(@RequestBody CollectionBox collectionBox) {

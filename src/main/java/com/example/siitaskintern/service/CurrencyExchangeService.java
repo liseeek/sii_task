@@ -12,9 +12,9 @@ public class CurrencyExchangeService {
     private final Map<String, BigDecimal> rates = new HashMap<>();
 
     public CurrencyExchangeService() {
-        rates.put("EUR_USD", new BigDecimal("1.10"));
+        rates.put("EUR_USD", new BigDecimal("1.15"));
         rates.put("PLN_EUR", new BigDecimal("0.23"));
-        rates.put("USD_PLN", new BigDecimal("3.90"));
+        rates.put("USD_PLN", new BigDecimal("3.72"));
     }
 
     public BigDecimal convertCurrency(BigDecimal amount, String from, String to) {
