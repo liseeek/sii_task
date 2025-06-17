@@ -8,6 +8,7 @@ import com.example.siitaskintern.service.CollectionBoxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,9 +53,7 @@ public class CollectionBoxController {
     }
 
     @PostMapping("/{boxId}/assign/{eventId}")
-    public ResponseEntity<CollectionBoxDto> assignBoxToEvent(
-            @PathVariable Long boxId,
-            @PathVariable Long eventId) {
+    public ResponseEntity<CollectionBoxDto> assignBoxToEvent(@PathVariable Long boxId, @PathVariable Long eventId) {
         try {
             CollectionBox assigned = service.assignBoxToEvent(boxId, eventId);
             return ResponseEntity.ok(new CollectionBoxDto(assigned));
@@ -75,14 +74,7 @@ public class CollectionBoxController {
 
     @GetMapping("/status")
     public List<CollectionBoxStatusDto> getAllBoxesWithStatus() {
-        return service.getAllBoxes().stream()
-                .map(box -> new CollectionBoxStatusDto(
-                        box.getId(),
-                        box.getName(),
-                        box.isAssigned(),
-                        box.isEmpty()
-                ))
-                .collect(Collectors.toList());
+        return service.getAllBoxes().stream().map(box -> new CollectionBoxStatusDto(box.getId(), box.getName(), box.isAssigned(), box.isEmpty())).collect(Collectors.toList());
     }
 }
 
